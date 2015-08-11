@@ -48,7 +48,7 @@ var usPopulation = function(){
                             x:svgWidth / 2 - 100,
                             y:150,
                             'font-size':24
-                          })
+                          });
 
   var yLabel = d3.select('svg')
                  .selectAll('text.yLabel')
@@ -62,7 +62,7 @@ var usPopulation = function(){
                       return (svgHeight - 100) - (d[0] / 2000);
                     },
                     'font-size':12
-                  })
+                  });
 
 
   var bars = d3.select('svg')
@@ -88,11 +88,11 @@ var usPopulation = function(){
                 .attr( 'y' , function(d){
                     return  (svgHeight - 100) - (d[1] / 2000);
                 })
-                .attr( 
+                .attr(
                   'height' , function(d){
                   return ( ( d[1] / 2000 )  )  + 'px';
-                })
-}
+                });
+};
 
 /*===================================Bitcoin Transactions==========================*/
 var bitcoinPlot = function(){
@@ -102,8 +102,8 @@ var bitcoinPlot = function(){
                      .append('svg')
                      .attr({
                       width : svgWidth,
-                      height : svgHeight + 500
-                     })
+                      height : svgHeight + 300
+                     });
 
   bitcoinSVG.selectAll('rect')
             .data(bitcoinTransaction.data)
@@ -113,7 +113,7 @@ var bitcoinPlot = function(){
                 return (100 - svgWidth) / bitcoinTransaction.data.length * i + svgWidth;
             })
             .attr( 'y' , function(d){
-                return  svgHeight + 400;
+                return  svgHeight + 200;
             })
             .attr( 'width' , 1)
             .attr('height', 0)
@@ -121,7 +121,7 @@ var bitcoinPlot = function(){
             .transition()
             .duration(5000)
             .attr( 'y' , function(d){
-                return  (svgHeight + 400) - (d[1] / 125000);
+                return  (svgHeight + 200) - (d[1] / 125000);
             })
             .attr( 'height' , function(d){
               return ( ( d[1] / 125000 )  )  + 'px';
@@ -148,9 +148,9 @@ var bitcoinPlot = function(){
               x : function(d, i){
                 return (svgWidth - 100) / bitcoinYear.length * i + 100;
               },
-              y : svgHeight + 425
+              y : svgHeight + 225
             });
-            //.call(yAxis);
+
 
   var yLabel = [[0,'0'],[10000000,'10,000,000'],[20000000,'20,000,000'],[30000000,'30,000,000'],[40000000,'40,000,000'],[50000000,'50,000,000'],[60000000,'60,000,000'],[70000000,'70,000,000'],[80000000,'80,000,000']];
 
@@ -167,15 +167,15 @@ var bitcoinPlot = function(){
             .attr({
               x : 0,
               y : function(d){
-                return (svgHeight + 400) - (d[0] / 125000);
+                return (svgHeight + 200) - (d[0] / 125000);
               }
-            })
+            });
 
   bitcoinSVG.append('text')
             .text('Total number of unique bitcoin transactions per day')
                           .attr({
                             x:200,
-                            y:400,
+                            y:200,
                             'font-size':24
                           })
             .style('opacity', 0)
@@ -183,20 +183,9 @@ var bitcoinPlot = function(){
             .duration(10000)
             .style('opacity', 1);
 
-
-
-
 };
 
-// var tornados = function(){
-//   var svg = d3.select('body')
-//               .selectAll('svg')
-//               .data()
-
-// };
-
-
-
+/*==============================Clear SVG================================*/
 var clearSvg = function(){
   d3.selectAll('svg')
     .transition()
@@ -205,17 +194,29 @@ var clearSvg = function(){
       opacity:0
     })
     .remove();
-}
+};
 
+/*==============================Setup Event Listener on Dropdown============*/
 document.getElementById('options').addEventListener('change',function(e){
+
+  if( window.stream ){
+    clearInterval(window.loopId);
+    window.stream.stop();
+    delete window.source;
+   }
+
   clearSvg();
+  window.called = false;
   if( e.target.value === '_usPop'){
-    setTimeout(usPopulation,750);
+    setTimeout(usPopulation,1000);
   }
   if( e.target.value === '_bitcoin' ){
     setTimeout(bitcoinPlot,750);
   }
-})
+  if( e.target.value === 'audioViz' ){
+    setTimeout(audioViz, 750);
+  }
+});
 
 
 
