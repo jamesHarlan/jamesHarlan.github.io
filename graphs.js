@@ -34,7 +34,7 @@ var usPopulation = function(){
                         return (svgWidth - 100) / usPopulationData.data.length * (i+0.7) + 50;
                         },
                       x:function(){
-                        return 70 - svgHeight ;//svgHeight - 50;
+                        return 70 - svgHeight ;
                       },
                       transform:'rotate(270)',
                       class:'xLabel'
@@ -95,6 +95,7 @@ var usPopulation = function(){
 };
 
 /*===================================Bitcoin Transactions==========================*/
+
 var bitcoinPlot = function(){
   svgWidth = 850;
 
@@ -186,6 +187,7 @@ var bitcoinPlot = function(){
 };
 
 /*==============================Clear SVG================================*/
+
 var clearSvg = function(){
   d3.selectAll('svg')
     .transition()
@@ -197,6 +199,7 @@ var clearSvg = function(){
 };
 
 /*==============================Setup Event Listener on Dropdown============*/
+
 document.getElementById('options').addEventListener('change',function(e){
 
   if( window.stream ){

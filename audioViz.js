@@ -107,7 +107,8 @@ var audioViz = function(){
                   return 0 ;
                 }
                 return 128+d ;
-              }
+              },
+              fill: function(d,i){ return "rgb(0,0," + Math.floor(255+d * 2) + ')';}
             });
 
       rects.exit().remove();
